@@ -10,25 +10,25 @@ import kotlin.io.path.Path
 data class PGTestSettings(
     val clientImage: String = "lovelysystems/docker-postgres:0.1.0",
     val serverImage: String = "lovelysystems/docker-postgres:0.1.0",
-    val devDir: String = "localdev/volumes/pgdev",
-    val testDir: String = "src/test/sql",
+    val devDir: String? = "localdev/volumes/pgdev",
+    val testDir: String? = "src/test/sql",
     val defaultDB: String = "postgres",
     val testFilePattern: String = "**.sql",
     val resetScripts: List<String> = emptyList(),
+    val serverConfiguration: PGServerContainer.() -> Unit = {},
     val clientConfiguration: PGClientContainer.() -> Unit = {}
-
 ) {
     fun create(): PGTestSetup {
         return PGTestSetup(
             PGClientContainer(
-                Path(testDir),
+                testDir = testDir?.let { Path(it) },
                 clientImage,
-                devDir = Path(devDir),
+                devDir = devDir?.let { Path(it) },
                 defaultDB = defaultDB,
                 testFilePattern = testFilePattern,
-                clientConfiguration = clientConfiguration
+                configureBlock = clientConfiguration
             ),
-            PGServerContainer(serverImage),
+            PGServerContainer(serverImage, configureBlock = serverConfiguration),
             resetScripts = resetScripts
         )
     }

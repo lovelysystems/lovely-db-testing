@@ -12,12 +12,12 @@ import kotlin.io.path.absolutePathString
 import kotlin.streams.toList
 
 class PGClientContainer(
-    val testDir: Path,
+    val testDir: Path?,
     imageName: String,
     val devDir: Path? = null,
     val defaultDB: String = "postgres",
     val testFilePattern: String = "**/*.sql",
-    val clientConfiguration: PGClientContainer.() -> Unit = {}
+    val configureBlock: PGClientContainer.() -> Unit = {}
 ) :
     GenericContainer<PGClientContainer>(DockerImageName.parse(imageName)) {
     override fun configure() {
@@ -35,8 +35,10 @@ class PGClientContainer(
         if (devDir != null) {
             withFileSystemBind(devDir.absolutePathString(), "/pgdev")
         }
-        withFileSystemBind(testDir.absolutePathString(), "/tests")
-        this.apply(clientConfiguration)
+        if (testDir != null) {
+            withFileSystemBind(testDir.absolutePathString(), "/tests")
+        }
+        this.apply(configureBlock)
     }
 
     fun psql(vararg args: String): String {
@@ -60,11 +62,11 @@ class PGClientContainer(
     }
 
     fun testPaths(): List<Path> {
-        return testDir.listRecursiveEntries(testFilePattern).toList()
+        return testDir?.listRecursiveEntries(testFilePattern)?.toList() ?: emptyList()
     }
 }
 
-class PGServerContainer(imageName: String) :
+class PGServerContainer(imageName: String, val configureBlock: PGServerContainer.() -> Unit) :
     GenericContainer<PGServerContainer>(DockerImageName.parse(imageName)) {
 
     override fun configure() {
@@ -78,8 +80,9 @@ class PGServerContainer(imageName: String) :
         )
         setWaitStrategy(LogMessageWaitStrategy().withRegEx(".*database system is ready to accept connections.*"))
         withCommand("-c", "fsync=off")
-        super.configure()
+        this.apply(configureBlock)
     }
+
 }
 
 @Suppress("CanBeParameter", "MemberVisibilityCanBePrivate")
