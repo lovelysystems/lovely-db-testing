@@ -1,6 +1,6 @@
 # Changes for lovely-db-testing
 
-## unreleased
+## 2021-10-22 / 0.0.2
 
 - allow to configure server container in setup
 - allow to null the test and dev directory in pg setup
