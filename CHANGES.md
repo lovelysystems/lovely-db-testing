@@ -1,6 +1,6 @@
 # Changes for lovely-db-testing
 
-## Unreleased
+## 2021-10-23 / 0.0.3
 
 - fix recognition of regex pattern
 
