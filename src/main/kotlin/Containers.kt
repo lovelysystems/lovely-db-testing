@@ -90,7 +90,7 @@ class PSQLException(val execResult: Container.ExecResult) :
     RuntimeException("${execResult.exitCode}\n${execResult.stderr}")
 
 fun Path.listRecursiveEntries(pattern: String): Stream<Path> {
-    val matcher = if (pattern.startsWith("glob:") && pattern.startsWith("regex")) {
+    val matcher = if (pattern.startsWith("glob:") || pattern.startsWith("regex")) {
         FileSystems.getDefault().getPathMatcher(pattern)
     } else {
         FileSystems.getDefault().getPathMatcher("glob:$pattern")
