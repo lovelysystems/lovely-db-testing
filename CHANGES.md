@@ -1,5 +1,9 @@
 # Changes for lovely-db-testing
 
+## Unreleased
+
+- fix recognition of regex pattern
+
 ## 2021-10-22 / 0.0.2
 
 - allow to configure server container in setup
