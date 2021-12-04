@@ -18,9 +18,11 @@ repositories {
 }
 
 dependencies {
-    implementation("org.junit.jupiter:junit-jupiter:5.8.1")
-    implementation(kotlin("test-junit5"))
+    compileOnly("org.junit.jupiter:junit-jupiter:5.8.1")
     api("org.testcontainers:testcontainers:1.16.0")
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation(kotlin("test-junit5"))
 }
 
 

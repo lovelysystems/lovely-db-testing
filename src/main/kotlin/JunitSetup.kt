@@ -4,7 +4,6 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import org.testcontainers.containers.Network
 import kotlin.io.path.Path
 
 data class PGTestSettings(
@@ -34,26 +33,21 @@ data class PGTestSettings(
     }
 }
 
-class PGTestSetup(val client: PGClientContainer, val server: PGServerContainer, val resetScripts: List<String>) :
-    BeforeAllCallback, AfterAllCallback, BeforeEachCallback {
+class PGTestJunitSetup(val pgSetup: PGTestSetup) : BeforeAllCallback, AfterAllCallback, BeforeEachCallback {
+
+    val client: PGClientContainer = pgSetup.client
+    val server: PGServerContainer = pgSetup.server
+
+    override fun beforeAll(context: ExtensionContext?) {
+        pgSetup.start()
+    }
+
+    override fun afterAll(context: ExtensionContext?) {
+        pgSetup.stop()
+    }
 
     override fun beforeEach(context: ExtensionContext?) {
-        if (resetScripts.isNotEmpty()) {
-            client.runFiles(*resetScripts.toTypedArray(), dbName = "postgres")
-        }
-    }
-
-    override fun beforeAll(context: ExtensionContext) {
-        val network = Network.newNetwork()
-        client.withNetwork(network)
-        server.withNetwork(network)
-        server.start()
-        client.start()
-    }
-
-    override fun afterAll(context: ExtensionContext) {
-        client.stop()
-        server.stop()
+        pgSetup.reset()
     }
 }
 
@@ -62,7 +56,7 @@ abstract class DBTest(settings: PGTestSettings = PGTestSettings()) {
 
     @JvmField
     @RegisterExtension
-    val pg: PGTestSetup = settings.create()
+    val pg: PGTestJunitSetup = PGTestJunitSetup(settings.create())
 
     fun sqlTestPaths(): List<String> {
         val paths = pg.client.testPaths()

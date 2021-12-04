@@ -1,5 +1,10 @@
 # Changes for lovely-db-testing
 
+## unreleased
+
+- seperated testsetup from junit specific stuff to make usable with
+  other frameworks like kotest
+
 ## 2021-10-23 / 0.0.3
 
 - fix recognition of regex pattern

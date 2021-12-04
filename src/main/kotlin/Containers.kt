@@ -82,7 +82,6 @@ class PGServerContainer(imageName: String, val configureBlock: PGServerContainer
         withCommand("-c", "fsync=off")
         this.apply(configureBlock)
     }
-
 }
 
 @Suppress("CanBeParameter", "MemberVisibilityCanBePrivate")
