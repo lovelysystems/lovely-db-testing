@@ -1,6 +1,6 @@
 # Changes for lovely-db-testing
 
-## unreleased
+## 2021-12-05 / 0.0.4
 
 - seperated testsetup from junit specific stuff to make usable with
   other frameworks like kotest
