@@ -7,8 +7,8 @@ import org.junit.jupiter.params.provider.MethodSource
 import kotlin.io.path.Path
 
 data class PGTestSettings(
-    val clientImage: String = "lovelysystems/docker-postgres:0.1.0",
-    val serverImage: String = "lovelysystems/docker-postgres:0.1.0",
+    val clientImage: String = "lovelysystems/docker-postgres:12.9.0-client",
+    val serverImage: String = "lovelysystems/docker-postgres:12.9.0",
     val devDir: String? = "localdev/volumes/pgdev",
     val testDir: String? = "src/test/sql",
     val defaultDB: String = "postgres",
