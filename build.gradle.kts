@@ -18,10 +18,10 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.junit.jupiter:junit-jupiter:5.8.1")
-    api("org.testcontainers:testcontainers:1.16.0")
+    compileOnly("org.junit.jupiter:junit-jupiter:5.8.2")
+    api("org.testcontainers:testcontainers:1.16.2")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
     testImplementation(kotlin("test-junit5"))
 }
 
