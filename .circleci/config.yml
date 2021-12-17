@@ -1,0 +1,15 @@
+version: 2.1
+jobs:
+  test:
+    # machine is required, docker does not work because of testcontainers
+    # see https://www.testcontainers.org/supported_docker_environment/
+    machine:
+      image: ubuntu-2004:202111-01
+    steps:
+      - checkout
+      - run:
+          command: ./gradlew check
+workflows:
+  test:
+    jobs:
+      - test
