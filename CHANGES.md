@@ -1,5 +1,9 @@
 # Changes for lovely-db-testing
 
+## unreleased
+
+- test setup uses docker-postgres 14.1.0 as default
+
 ## 2021-12-05 / 0.0.4
 
 - seperated testsetup from junit specific stuff to make usable with
