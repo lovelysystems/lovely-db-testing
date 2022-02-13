@@ -1,6 +1,6 @@
 # Changes for lovely-db-testing
 
-## unreleased
+## 2022-02-13 / 0.0.5
 
 - allow to filter sql test files to run via env var 'SQLTEST_FILE_FILTER'
 - test setup uses docker-postgres 14.1.0 as default
