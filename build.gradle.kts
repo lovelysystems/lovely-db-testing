@@ -2,7 +2,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 plugins {
     kotlin("jvm") version "1.6.10"
-    id("com.lovelysystems.gradle") version "1.6.1"
+    id("com.lovelysystems.gradle") version "1.6.2"
     `java-library`
     `maven-publish`
 }
@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     compileOnly("org.junit.jupiter:junit-jupiter:5.8.2")
-    api("org.testcontainers:testcontainers:1.16.2")
+    api("org.testcontainers:testcontainers:1.16.3")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
     testImplementation(kotlin("test-junit5"))
@@ -32,6 +32,10 @@ tasks.withType<Test> {
         showStandardStreams = true
         events = setOf(PASSED, SKIPPED, FAILED)
     }
+}
+
+java {
+    withSourcesJar()
 }
 
 publishing {

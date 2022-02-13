@@ -7,9 +7,9 @@ import org.testcontainers.utility.DockerImageName
 import java.nio.file.FileSystems
 import java.nio.file.Files
 import java.nio.file.Path
-import java.util.stream.Stream
+import java.nio.file.PathMatcher
 import kotlin.io.path.absolutePathString
-import kotlin.streams.toList
+import kotlin.streams.asSequence
 
 class PGClientContainer(
     val testDir: Path?,
@@ -17,7 +17,7 @@ class PGClientContainer(
     val devDir: Path? = null,
     val defaultDB: String = "postgres",
     val testFilePattern: String = "**/*.sql",
-    val configureBlock: PGClientContainer.() -> Unit = {}
+    val configureBlock: PGClientContainer.() -> Unit = {},
 ) :
     GenericContainer<PGClientContainer>(DockerImageName.parse(imageName)) {
     override fun configure() {
@@ -61,8 +61,30 @@ class PGClientContainer(
         return psql(*fileNames.flatMap { listOf("-f", it) }.toTypedArray(), dbName)
     }
 
-    fun testPaths(): List<Path> {
-        return testDir?.listRecursiveEntries(testFilePattern)?.toList() ?: emptyList()
+    private fun getPathMatcher(pattern: String): PathMatcher {
+        val matchString = if (pattern.startsWith("glob:") || pattern.startsWith("regex:")) {
+            pattern
+        } else {
+            "glob:$pattern"
+        }
+        return FileSystems.getDefault().getPathMatcher(matchString)
+    }
+
+    /**
+     * Returns all files configured for testing as a sequence of paths with optional filtering by the
+     * given [filterPattern].
+     *
+     * The pattern can also be provided via the environment variable 'SQLTEST_FILE_FILTER'.
+     */
+    fun testPaths(filterPattern: String? = System.getenv("SQLTEST_FILE_FILTER")): Sequence<Path> {
+        if (testDir == null || testFilePattern.isNullOrBlank()) return emptySequence()
+        val fileMatcher = getPathMatcher(testFilePattern)
+        val files = Files.walk(testDir).asSequence().map { testDir.relativize(it) }.filter { fileMatcher.matches(it) }
+        if (filterPattern.isNullOrBlank()) {
+            return files
+        }
+        val filterMatcher: PathMatcher = getPathMatcher(filterPattern);
+        return files.filter { filterMatcher.matches(it) }
     }
 }
 
@@ -87,12 +109,3 @@ class PGServerContainer(imageName: String, val configureBlock: PGServerContainer
 @Suppress("CanBeParameter", "MemberVisibilityCanBePrivate")
 class PSQLException(val execResult: Container.ExecResult) :
     RuntimeException("${execResult.exitCode}\n${execResult.stderr}")
-
-fun Path.listRecursiveEntries(pattern: String): Stream<Path> {
-    val matcher = if (pattern.startsWith("glob:") || pattern.startsWith("regex:")) {
-        FileSystems.getDefault().getPathMatcher(pattern)
-    } else {
-        FileSystems.getDefault().getPathMatcher("glob:$pattern")
-    }
-    return Files.walk(this).map { this.relativize(it) }.filter { matcher.matches(it) }
-}

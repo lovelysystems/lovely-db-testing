@@ -15,7 +15,7 @@ data class PGTestSettings(
     val testFilePattern: String = "**.sql",
     val resetScripts: List<String> = emptyList(),
     val serverConfiguration: PGServerContainer.() -> Unit = {},
-    val clientConfiguration: PGClientContainer.() -> Unit = {}
+    val clientConfiguration: PGClientContainer.() -> Unit = {},
 ) {
     fun create(): PGTestSetup {
         return PGTestSetup(
@@ -59,7 +59,7 @@ abstract class DBTest(settings: PGTestSettings = PGTestSettings()) {
     val pg: PGTestJunitSetup = PGTestJunitSetup(settings.create())
 
     fun sqlTestPaths(): List<String> {
-        val paths = pg.client.testPaths()
+        val paths = pg.client.testPaths().toList()
         assert(paths.isNotEmpty()) { "no sql files found in ${pg.client.testDir}" }
         return paths.map { it.toString() }
     }
