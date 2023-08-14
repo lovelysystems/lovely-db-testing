@@ -1,5 +1,15 @@
 # Changes for lovely-db-testing
 
+## unreleased
+
+### Feature
+
+- upgraded test containers to 1.18.3
+
+### Develop
+
+- upgraded kotlin and gradle
+
 ## 2022-02-13 / 0.0.5
 
 - allow to filter sql test files to run via env var 'SQLTEST_FILE_FILTER'
