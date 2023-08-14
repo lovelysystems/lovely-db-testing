@@ -4,6 +4,8 @@
 
 ### Feature
 
+- allow to specify a fixed port for the server container
+- allow to reuse server container in test setup
 - upgraded test containers to 1.18.3
 
 ### Develop

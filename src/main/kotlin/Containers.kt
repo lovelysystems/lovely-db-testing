@@ -104,6 +104,11 @@ class PGServerContainer(imageName: String, val configureBlock: PGServerContainer
         withCommand("-c", "fsync=off")
         this.apply(configureBlock)
     }
+
+    fun withFixedPort(port: Int, internalPort: Int = 5432) {
+        addFixedExposedPort(port, internalPort)
+    }
+
 }
 
 @Suppress("CanBeParameter", "MemberVisibilityCanBePrivate")
