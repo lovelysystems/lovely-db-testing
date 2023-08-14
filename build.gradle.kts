@@ -1,11 +1,19 @@
 import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 plugins {
-    kotlin("jvm") version "1.6.10"
-    id("com.lovelysystems.gradle") version "1.6.2"
+    kotlin("jvm") version "1.9.0"
+    id("com.lovelysystems.gradle") version "1.11.5"
     `java-library`
     `maven-publish`
 }
+
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
 
 group = "com.lovelysystems"
 
@@ -18,10 +26,10 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.junit.jupiter:junit-jupiter:5.8.2")
-    api("org.testcontainers:testcontainers:1.16.3")
+    compileOnly("org.junit.jupiter:junit-jupiter:5.10.0")
+    api("org.testcontainers:testcontainers:1.18.3")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
     testImplementation(kotlin("test-junit5"))
 }
 
