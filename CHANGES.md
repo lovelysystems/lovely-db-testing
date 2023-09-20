@@ -1,5 +1,18 @@
 # Changes for lovely-db-testing
 
+## unreleased
+
+### Fix
+
+- properly await postgres server container startup
+
+### Feature
+
+- update gradle to 8.3
+- update kotlin to 1.9.10
+- update lovely gradle plugin to 1.12.0
+- update testcontainers to 1.19.0
+
 ## 2023-08-14 / 0.1.0
 
 ### Feature
