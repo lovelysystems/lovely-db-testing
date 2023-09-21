@@ -83,7 +83,7 @@ class PGClientContainer(
         if (filterPattern.isNullOrBlank()) {
             return files
         }
-        val filterMatcher: PathMatcher = getPathMatcher(filterPattern);
+        val filterMatcher: PathMatcher = getPathMatcher(filterPattern)
         return files.filter { filterMatcher.matches(it) }
     }
 }
@@ -100,7 +100,11 @@ class PGServerContainer(imageName: String, val configureBlock: PGServerContainer
                 "POSTGRES_PASSWORD" to "postgres",
             )
         )
-        setWaitStrategy(LogMessageWaitStrategy().withRegEx(".*database system is ready to accept connections.*"))
+        setWaitStrategy(
+            LogMessageWaitStrategy()
+                .withRegEx(".*database system is ready to accept connections.*")
+                .withTimes(2)
+        )
         withCommand("-c", "fsync=off")
         this.apply(configureBlock)
     }
