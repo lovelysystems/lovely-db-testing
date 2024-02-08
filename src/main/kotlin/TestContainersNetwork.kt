@@ -18,7 +18,7 @@ fun createOrUseNetwork(networkName: String): Network {
         nameField.setAccessible(true)
         nameField.set(network, networkName)
         val networks = DockerClientFactory.instance().client().listNetworksCmd().withNameFilter(networkName).exec()
-        if (!networks.isEmpty()) {
+        if (networks.isNotEmpty()) {
             val idField = Network.NetworkImpl::class.java.getDeclaredField("id")
             idField.setAccessible(true)
             idField.set(network, networks[0].id)

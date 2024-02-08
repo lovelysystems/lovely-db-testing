@@ -10,6 +10,8 @@ class PGTestSetup(
     private val fixedPort: Int? = null,
 ) {
 
+    private lateinit var network: Network
+
     fun reset() {
         if (resetScripts.isNotEmpty()) {
             client.runFiles(*resetScripts.toTypedArray(), dbName = "postgres")
@@ -17,7 +19,7 @@ class PGTestSetup(
     }
 
     fun start() {
-        val network = if (reuseIdent != null) {
+        network = if (reuseIdent != null) {
             // use a network named after the site
             createOrUseNetwork("ldbt_$reuseIdent")
         } else {
@@ -44,6 +46,7 @@ class PGTestSetup(
         if (reuseIdent == null) {
             client.stop()
             server.stop()
+            network.close()
         }
     }
 }
