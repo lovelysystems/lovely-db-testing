@@ -47,15 +47,19 @@ java {
 }
 
 publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["java"])
-        }
-    }
     repositories {
         maven {
-            // change to point to your repo, e.g. http://my.org/repo
-            url = uri("../maven/releases")
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/lovelysystems/lovely-db-testing")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_USER")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    publications {
+        register<MavenPublication>("gpr") {
+            from(components["java"])
         }
     }
 }
