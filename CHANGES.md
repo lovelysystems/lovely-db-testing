@@ -1,6 +1,6 @@
 # Changes for lovely-db-testing
 
-## Unreleased
+## 2024-02-08 / 0.3.0
 
 ### Fix
 
