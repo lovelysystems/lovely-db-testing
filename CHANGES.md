@@ -1,5 +1,17 @@
 # Changes for lovely-db-testing
 
+## Unreleased
+
+### Fix
+
+- close networks created by testcontainers inside `PGTestSetup.stop` to prevent having too many dangling networks around
+
+### Feature
+
+- update Gradle to 8.5
+- update Kotlin to 1.9.22
+- update testcontainers to 1.19.4
+
 ## 2023-09-21 / 0.2.0
 
 ### Fix
