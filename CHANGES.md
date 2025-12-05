@@ -1,5 +1,11 @@
 # Changes for lovely-db-testing
 
+## 2025-12-05
+
+### Fix
+
+- upgrade `testcontainers` to 2.0.2 to ensure compatibility with Docker 29+, since older versions use an unsupported Docker API.     
+
 ## 2024-02-08 / 0.3.0
 
 ### Fix
