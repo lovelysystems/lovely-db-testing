@@ -1,6 +1,6 @@
 # Changes for lovely-db-testing
 
-## 2025-12-05
+## 2025-12-05 / 0.3.1
 
 ### Fix
 
