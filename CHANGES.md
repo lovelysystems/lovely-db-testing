@@ -1,6 +1,6 @@
 # Changes for lovely-db-testing
 
-## unreleased 
+## 2025-12-09 / 0.4.0 
 
 ### Feature
 
