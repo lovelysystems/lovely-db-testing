@@ -4,7 +4,7 @@ jobs:
     # machine is required, docker does not work because of testcontainers
     # see https://www.testcontainers.org/supported_docker_environment/
     machine:
-      image: ubuntu-2204:2023.07.2
+      image: ubuntu-2404:2024.11.1
     steps:
       - checkout
       - run:
