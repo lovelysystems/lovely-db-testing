@@ -27,7 +27,7 @@ repositories {
 
 dependencies {
     compileOnly("org.junit.jupiter:junit-jupiter:5.10.0")
-    api("org.testcontainers:testcontainers:1.19.4")
+    api("org.testcontainers:testcontainers:2.0.2")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
     testImplementation(kotlin("test-junit5"))

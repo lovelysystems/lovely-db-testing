@@ -1,5 +1,6 @@
 package com.lovelysystems.db.testing
 
+import org.testcontainers.containers.BindMode
 import org.testcontainers.containers.Container
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy
@@ -33,10 +34,10 @@ class PGClientContainer(
             it.withEntrypoint("tail", "-f", "/dev/null")
         }
         if (devDir != null) {
-            withFileSystemBind(devDir.absolutePathString(), "/pgdev")
+            withFileSystemBind(devDir.absolutePathString(), "/pgdev", BindMode.READ_ONLY)
         }
         if (testDir != null) {
-            withFileSystemBind(testDir.absolutePathString(), "/tests")
+            withFileSystemBind(testDir.absolutePathString(), "/tests", BindMode.READ_ONLY)
         }
         this.apply(configureBlock)
     }
@@ -77,7 +78,7 @@ class PGClientContainer(
      * The pattern can also be provided via the environment variable 'SQLTEST_FILE_FILTER'.
      */
     fun testPaths(filterPattern: String? = System.getenv("SQLTEST_FILE_FILTER")): Sequence<Path> {
-        if (testDir == null || testFilePattern.isNullOrBlank()) return emptySequence()
+        if (testDir == null || testFilePattern.isBlank()) return emptySequence()
         val fileMatcher = getPathMatcher(testFilePattern)
         val files = Files.walk(testDir).asSequence().map { testDir.relativize(it) }.filter { fileMatcher.matches(it) }
         if (filterPattern.isNullOrBlank()) {
