@@ -1,5 +1,17 @@
 # Changes for lovely-db-testing
 
+## unreleased 
+
+### Feature
+
+- upgrade `testcontainers` to 2.0.2 to ensure compatibility with Docker 29+, since older versions use an unsupported Docker API.
+- replaced deprecated method in PGClientContainer
+
+### Breaking
+
+- JUnit 4 support removed: @Rule @ClassRule and @Testcontainers/@Container annotations are no longer supported.
+- Minimum Java bumped to 17
+
 ## 2024-02-08 / 0.3.0
 
 ### Fix
