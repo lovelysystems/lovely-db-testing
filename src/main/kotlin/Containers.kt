@@ -1,10 +1,10 @@
 package com.lovelysystems.db.testing
 
-import org.testcontainers.containers.BindMode
 import org.testcontainers.containers.Container
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy
 import org.testcontainers.utility.DockerImageName
+import org.testcontainers.utility.MountableFile
 import java.nio.file.FileSystems
 import java.nio.file.Files
 import java.nio.file.Path
@@ -34,10 +34,10 @@ class PGClientContainer(
             it.withEntrypoint("tail", "-f", "/dev/null")
         }
         if (devDir != null) {
-            withFileSystemBind(devDir.absolutePathString(), "/pgdev", BindMode.READ_ONLY)
+            withCopyToContainer(MountableFile.forHostPath(devDir), "/pgdev")
         }
         if (testDir != null) {
-            withFileSystemBind(testDir.absolutePathString(), "/tests", BindMode.READ_ONLY)
+            withCopyToContainer(MountableFile.forHostPath(testDir), "/tests")
         }
         this.apply(configureBlock)
     }

@@ -1,5 +1,12 @@
 # Changes for lovely-db-testing
 
+## 2026-04-02 / 0.4.1
+
+### Fix
+
+- replace `withFileSystemBind` with `withCopyToContainer` in `PGClientContainer` for
+  remote Docker daemon compatibility (e.g. CircleCI `setup_remote_docker`)
+
 ## 2025-12-09 / 0.4.0 
 
 ### Feature
