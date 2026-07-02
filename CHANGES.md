@@ -4,7 +4,7 @@
 
 ### Development
 
-- migrate CI from CircleCI to GitHub Actions on the self-hosted `op-ci-runners`
+- Migrate CI from CircleCI to GitHub Actions.
 
 ## 2026-04-02 / 0.4.1
 
