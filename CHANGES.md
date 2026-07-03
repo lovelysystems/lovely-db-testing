@@ -1,5 +1,11 @@
 # Changes for lovely-db-testing
 
+## Unreleased
+
+### Development
+
+- Migrate CI from CircleCI to GitHub Actions.
+
 ## 2026-04-02 / 0.4.1
 
 ### Fix
